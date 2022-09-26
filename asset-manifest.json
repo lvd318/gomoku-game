@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/gomoku-game/static/css/main.6c2b5dd6.css",
+    "main.js": "/gomoku-game/static/js/main.fa0f8bb4.js",
+    "index.html": "/gomoku-game/index.html",
+    "main.6c2b5dd6.css.map": "/gomoku-game/static/css/main.6c2b5dd6.css.map",
+    "main.fa0f8bb4.js.map": "/gomoku-game/static/js/main.fa0f8bb4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6c2b5dd6.css",
+    "static/js/main.fa0f8bb4.js"
+  ]
+}
