@@ -31,6 +31,10 @@ body {
     text-align: center;
     width: 34px;
   }
+
+  .square.highlight {
+    background: rgb(255, 154, 154)
+  }
   
   .square:focus {
     outline: none;

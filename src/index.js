@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function Square(props) {
+    const className = 'square ' + (props.highlight ? 'highlight' : '');
     return (
-      <button className="square" onClick={props.onClick}>
+      <button 
+        className={className}
+        onClick={props.onClick}>
         {props.value}
       </button>
     );
@@ -12,10 +15,13 @@ function Square(props) {
   
   class Board extends React.Component {
     renderSquare(i) {
+      const winLine = this.props.winLine;
       return (
         <Square 
+            key={i}
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i)}
+            highlight={winLine && winLine.includes(i)}
         />
       );
     }
@@ -43,10 +49,11 @@ function Square(props) {
         this.state = {
           boardSize: 5,
           history: [{
-            squares: Array(9).fill(null),
+            squares: Array(25).fill(null),
           }],
           stepNumber: 0,
           xIsNext: true,
+          isAscendingSort: true
         };
       }
 
@@ -54,7 +61,7 @@ function Square(props) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if(calculateWinner(squares) || squares[i]) {
+        if(calculateWinner(squares).winner || calculateWinner(squares).isDraw || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -78,7 +85,8 @@ function Square(props) {
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
+        const winnerInfo = calculateWinner(current.squares);
+        const winner = winnerInfo.winner;
 
         const moves = history.map((step, move) => {
           const latestMoveSquare = step.latestMoveSquare;
@@ -101,9 +109,18 @@ function Square(props) {
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
-          } else {
+        } else {
+          if(winnerInfo.isDraw){
+            status = "Draw";
+          }else{
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
           }
+        }
+
+        const isAscendingSort = this.state.isAscendingSort;
+        if(!isAscendingSort){
+          moves.reverse();
+        }
 
       return (
         <div className="game">
@@ -112,6 +129,7 @@ function Square(props) {
                 squares={current.squares}
                 boardSize={this.state.boardSize}
                 onClick={(i) => this.handleClick(i)}
+                winLine={winnerInfo.line}
             />
           </div>
           <div className="game-info">
@@ -122,15 +140,28 @@ function Square(props) {
               />
             </div>
             <div>{status}</div>
+            <div>
+              <label>History: </label>    
+              <button onClick={() => this.handleSortToggle()}>
+                {isAscendingSort ? 'Descending' : 'Ascending'}
+              </button>
+            </div>
+            
             <ol>{moves}</ol>
           </div>
         </div>
       );
     }
 
+    handleSortToggle(){
+      this.setState({
+        isAscendingSort: !this.state.isAscendingSort
+      })
+    }
+
     handleOnChangeBoardSize = (event) =>{
       this.setState({
-        boardSize: event.target.value
+        boardSize: event.target.value,
       })
     }
 
@@ -155,8 +186,24 @@ function Square(props) {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return {
+          winner: squares[a],
+          line: lines[i],
+          isDraw: false,
+        };
       }
     }
-    return null;
+    let isDraw = true;
+    for (let i = 0; i < squares.length; i++) {
+      if (squares[i] === null) {
+        isDraw = false;
+        break;
+      }
+    }
+
+    return {
+      winner: null,
+      line: null,
+      isDraw: isDraw,
+    };
   }
