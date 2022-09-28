@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/gomoku-game/static/css/main.d1a2d319.css",
-    "main.js": "/gomoku-game/static/js/main.dd5839a6.js",
+    "main.css": "/gomoku-game/static/css/main.f949bc62.css",
+    "main.js": "/gomoku-game/static/js/main.626d6709.js",
     "index.html": "/gomoku-game/index.html",
-    "main.d1a2d319.css.map": "/gomoku-game/static/css/main.d1a2d319.css.map",
-    "main.dd5839a6.js.map": "/gomoku-game/static/js/main.dd5839a6.js.map"
+    "main.f949bc62.css.map": "/gomoku-game/static/css/main.f949bc62.css.map",
+    "main.626d6709.js.map": "/gomoku-game/static/js/main.626d6709.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1a2d319.css",
-    "static/js/main.dd5839a6.js"
+    "static/css/main.f949bc62.css",
+    "static/js/main.626d6709.js"
   ]
 }
